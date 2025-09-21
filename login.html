@@ -29,5 +29,19 @@ function login() {
   }
 }
 </script>
+<script>
+function login() {
+  const u = document.getElementById('username').value;
+  const p = document.getElementById('password').value;
+
+  if(u === "admin" && p === "1234") {
+    // Redirect to your main site
+    window.location.href = "https://cutieisha.github.io/dashavatara/";
+  } else {
+    alert("Invalid credentials");
+  }
+}
+</script>
+
 </body>
 </html>
