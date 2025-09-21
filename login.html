@@ -326,6 +326,60 @@
       margin: 0.2rem 0;
     }
 
+    /* Dashboard styles */
+    .dashboard {
+      display: none;
+      text-align: center;
+    }
+
+    .dashboard.active {
+      display: block;
+    }
+
+    .dashboard h2 {
+      font-family: 'Cinzel', serif;
+      color: var(--deep-blue);
+      margin-bottom: 1rem;
+    }
+
+    .session-info {
+      background: linear-gradient(135deg, #e3f2fd, #bbdefb);
+      padding: 1.5rem;
+      border-radius: 15px;
+      margin: 1rem 0;
+      text-align: left;
+    }
+
+    .session-info h3 {
+      color: var(--deep-blue);
+      margin-bottom: 1rem;
+    }
+
+    .session-info p {
+      margin: 0.5rem 0;
+      font-family: monospace;
+      background: rgba(255,255,255,0.7);
+      padding: 0.5rem;
+      border-radius: 5px;
+      word-break: break-all;
+    }
+
+    .logout-btn {
+      background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+      color: white;
+      border: none;
+      padding: 1rem 2rem;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 1rem;
+      margin-top: 1rem;
+      transition: transform 0.3s ease;
+    }
+
+    .logout-btn:hover {
+      transform: translateY(-2px);
+    }
+
     @media (max-width: 768px) {
       .login-container {
         width: 95vw;
@@ -363,44 +417,63 @@
       <p>Enter the Sacred Realm of Dashavatara</p>
     </div>
     
-    <form class="login-form" id="loginForm">
-      <div id="messageContainer"></div>
-      
-      <div class="form-group">
-        <label for="username">Sacred Username</label>
-        <input 
-          type="text" 
-          id="username" 
-          name="username" 
-          placeholder="Enter your divine identity"
-          required
-        >
+    <!-- Login Form -->
+    <div id="loginSection">
+      <form class="login-form" id="loginForm">
+        <div id="messageContainer"></div>
+        
+        <div class="form-group">
+          <label for="username">Sacred Username</label>
+          <input 
+            type="text" 
+            id="username" 
+            name="username" 
+            placeholder="Enter your divine identity"
+            required
+          >
+        </div>
+        
+        <div class="form-group">
+          <label for="password">Divine Passcode</label>
+          <input 
+            type="password" 
+            id="password" 
+            name="password" 
+            placeholder="Enter the sacred key"
+            required
+          >
+        </div>
+        
+        <button type="submit" class="login-btn" id="loginBtn">
+          Enter Divine Realm
+        </button>
+        
+        <div class="demo-credentials">
+          <h3>Login Credentials</h3>
+          <p><strong>Username:</strong> admin</p>
+          <p><strong>Password:</strong> 123456</p>
+          <p style="font-size: 0.8rem; margin-top: 0.5rem; opacity: 0.8;">
+            Use these credentials to access the site
+          </p>
+        </div>
+      </form>
+    </div>
+
+    <!-- Dashboard (shown after login) -->
+    <div id="dashboardSection" class="dashboard login-form">
+      <h2>🎉 Welcome to Divine Realm!</h2>
+      <div class="session-info">
+        <h3>Active Session Information:</h3>
+        <p><strong>User:</strong> <span id="sessionUser"></span></p>
+        <p><strong>Session ID:</strong> <span id="sessionId"></span></p>
+        <p><strong>Login Time:</strong> <span id="loginTime"></span></p>
+        <p><strong>Status:</strong> <span style="color: green;">✅ Authenticated</span></p>
       </div>
-      
-      <div class="form-group">
-        <label for="password">Divine Passcode</label>
-        <input 
-          type="password" 
-          id="password" 
-          name="password" 
-          placeholder="Enter the sacred key"
-          required
-        >
-      </div>
-      
-      <button type="submit" class="login-btn" id="loginBtn">
-        Enter Divine Realm
-      </button>
-      
-      <div class="demo-credentials">
-        <h3>Login Credentials</h3>
-        <p><strong>Username:</strong> admin</p>
-        <p><strong>Password:</strong> 123456</p>
-        <p style="font-size: 0.8rem; margin-top: 0.5rem; opacity: 0.8;">
-          Use these credentials to access the site
-        </p>
-      </div>
-    </form>
+      <p style="margin: 1rem 0; color: var(--deep-blue);">
+        This session is now active. An attacker who steals your session ID can impersonate you!
+      </p>
+      <button class="logout-btn" onclick="logout()">Logout</button>
+    </div>
   </div>
 
   <script>
@@ -409,6 +482,51 @@
       'admin': '123456'
     };
 
+    // Generate random session ID
+    function generateSessionId() {
+      const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+      let sessionId = 'sess_';
+      for (let i = 0; i < 32; i++) {
+        sessionId += chars.charAt(Math.floor(Math.random() * chars.length));
+      }
+      return sessionId;
+    }
+
+    // Check if user is already logged in on page load
+    function checkExistingSession() {
+      const sessionData = sessionStorage.getItem('userSession');
+      if (sessionData) {
+        try {
+          const session = JSON.parse(sessionData);
+          if (session.isAuthenticated && session.sessionId) {
+            showDashboard(session);
+            return true;
+          }
+        } catch (e) {
+          console.log('Invalid session data');
+          sessionStorage.removeItem('userSession');
+        }
+      }
+      return false;
+    }
+
+    // Show dashboard with session info
+    function showDashboard(sessionData) {
+      document.getElementById('loginSection').style.display = 'none';
+      document.getElementById('dashboardSection').classList.add('active');
+      
+      document.getElementById('sessionUser').textContent = sessionData.username;
+      document.getElementById('sessionId').textContent = sessionData.sessionId;
+      document.getElementById('loginTime').textContent = new Date(sessionData.loginTime).toLocaleString();
+    }
+
+    // Logout function
+    function logout() {
+      sessionStorage.removeItem('userSession');
+      location.reload();
+    }
+
+    // Login form handler
     document.getElementById('loginForm').addEventListener('submit', function(e) {
       e.preventDefault();
       
@@ -427,23 +545,23 @@
       // Simulate authentication delay
       setTimeout(() => {
         if (validCredentials[username] && validCredentials[username] === password) {
-          // Success
-          messageContainer.innerHTML = '<div class="success-message">Login successful! Redirecting...</div>';
-          
-          // Store login state
-          const loginData = {
+          // Success - create session
+          const sessionData = {
             username: username,
             loginTime: new Date().toISOString(),
-            isAuthenticated: true
+            isAuthenticated: true,
+            sessionId: generateSessionId()
           };
           
-          // Store in memory
-          window.userSession = loginData;
+          // Store session in sessionStorage
+          sessionStorage.setItem('userSession', JSON.stringify(sessionData));
           
-          // Redirect after success animation
+          messageContainer.innerHTML = '<div class="success-message">Login successful! Session created...</div>';
+          
+          // Show dashboard after animation
           setTimeout(() => {
-            window.location.href = 'index.html';
-          }, 2000);
+            showDashboard(sessionData);
+          }, 1500);
           
         } else {
           // Error
@@ -460,16 +578,19 @@
       }, 1500);
     });
 
-    // Add enter key support
-    document.addEventListener('keypress', function(e) {
-      if (e.key === 'Enter') {
-        document.getElementById('loginForm').dispatchEvent(new Event('submit'));
+    // Check for existing session on page load
+    window.addEventListener('load', function() {
+      if (!checkExistingSession()) {
+        // No valid session, focus on username field
+        document.getElementById('username').focus();
       }
     });
 
-    // Focus on username field when page loads
-    window.addEventListener('load', function() {
-      document.getElementById('username').focus();
+    // Add enter key support
+    document.addEventListener('keypress', function(e) {
+      if (e.key === 'Enter' && document.getElementById('loginSection').style.display !== 'none') {
+        document.getElementById('loginForm').dispatchEvent(new Event('submit'));
+      }
     });
 
     // Add input validation styling
@@ -498,31 +619,6 @@
         }, 200);
       });
     });
-
-    // Generate a random session ID
-function generateSessionId(length = 16) {
-  const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-  let sessionId = '';
-  for (let i = 0; i < length; i++) {
-    sessionId += chars.charAt(Math.floor(Math.random() * chars.length));
-  }
-  return sessionId;
-}
-
-// Create session object
-const loginData = {
-  username: username,
-  loginTime: new Date().toISOString(),
-  isAuthenticated: true,
-  sessionId: generateSessionId(24)  // <-- new session ID
-};
-
-// Store in localStorage to simulate a "real session"
-localStorage.setItem('session', JSON.stringify(loginData));
-
-// Also store in memory (your existing code)
-window.userSession = loginData;
-
   </script>
 </body>
 </html>
