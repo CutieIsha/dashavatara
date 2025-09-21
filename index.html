@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Dashavatara - Lord Vishnu</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Crimson+Text:wght@400;600&display=swap');
+    
+    :root {
+      --primary-gold: #d4af37;
+      --deep-blue: #0a2447;
+      --royal-purple: #4a148c;
+      --sacred-orange: #ff7043;
+      --divine-white: #fafafa;
+      --text-dark: #1a1a1a;
+      --shadow-light: rgba(212, 175, 55, 0.2);
+      --shadow-dark: rgba(10, 36, 71, 0.3);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Crimson Text', serif;
+      background: linear-gradient(135deg, var(--deep-blue) 0%, var(--royal-purple) 100%);
+      color: var(--text-dark);
+      min-height: 100vh;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle at 20% 80%, rgba(212, 175, 55, 0.1) 0%, transparent 50%),
+                  radial-gradient(circle at 80% 20%, rgba(255, 112, 67, 0.1) 0%, transparent 50%);
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    header {
+      background: linear-gradient(135deg, var(--deep-blue) 0%, var(--royal-purple) 100%);
+      color: var(--divine-white);
+      padding: 4rem 2rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    header::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(212, 175, 55, 0.1) 0%, transparent 70%);
+      animation: rotate 20s linear infinite;
+    }
+
+    @keyframes rotate {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    header h1 {
+      font-family: 'Cinzel', serif;
+      font-size: 3.5rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+      background: linear-gradient(45deg, var(--primary-gold), var(--sacred-orange));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      position: relative;
+      z-index: 1;
+    }
+
+    header p {
+      font-size: 1.3rem;
+      opacity: 0.9;
+      max-width: 600px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }
+
+    main {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 2rem;
+      padding: 3rem 2rem;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .card {
+      background: var(--divine-white);
+      border-radius: 20px;
+      box-shadow: 0 10px 30px var(--shadow-dark);
+      overflow: hidden;
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      position: relative;
+      cursor: pointer;
+      border: 2px solid transparent;
+    }
+
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(45deg, var(--primary-gold), var(--sacred-orange));
+      z-index: -1;
+      border-radius: 20px;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .card:hover::before {
+      opacity: 1;
+    }
+
+    .card:hover {
+      transform: translateY(-15px) scale(1.02);
+      box-shadow: 0 20px 40px var(--shadow-dark);
+      border-color: var(--primary-gold);
+    }
+
+    .card-inner {
+      background: var(--divine-white);
+      margin: 2px;
+      border-radius: 18px;
+      overflow: hidden;
+      position: relative;
+      z-index: 1;
+    }
+
+    .card-image-container {
+      position: relative;
+      height: 280px;
+      overflow: hidden;
+    }
+
+    .card img {
+      width: 100%;
+      height: 100%;
+      object-fit: fill;
+      transition: transform 0.4s ease;
+    }
+
+    .card:hover img {
+      transform: scale(1.1);
+    }
+
+    .card-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.7) 100%);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .card:hover .card-overlay {
+      opacity: 1;
+    }
+
+    .card-number {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      background: var(--primary-gold);
+      color: var(--deep-blue);
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+      font-size: 1.2rem;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    }
+
+    .card-content {
+      padding: 2rem;
+      position: relative;
+    }
+
+    .card-content h2 {
+      font-family: 'Cinzel', serif;
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: var(--deep-blue);
+      margin-bottom: 1rem;
+      position: relative;
+    }
+
+    .card-content h2::after {
+      content: '';
+      position: absolute;
+      bottom: -5px;
+      left: 0;
+      width: 50px;
+      height: 3px;
+      background: linear-gradient(to right, var(--primary-gold), var(--sacred-orange));
+      border-radius: 2px;
+      transition: width 0.3s ease;
+    }
+
+    .card:hover .card-content h2::after {
+      width: 100px;
+    }
+
+    .card-content p {
+      font-size: 1.1rem;
+      line-height: 1.7;
+      color: #555;
+      margin-bottom: 1.5rem;
+    }
+
+    .card-details {
+      background: linear-gradient(135deg, var(--primary-gold), var(--sacred-orange));
+      color: white;
+      padding: 1rem 2rem;
+      margin: 0 -2rem -2rem;
+      transform: translateY(100%);
+      transition: transform 0.3s ease;
+    }
+
+    .card:hover .card-details {
+      transform: translateY(0);
+    }
+
+    .card-details h3 {
+      font-family: 'Cinzel', serif;
+      font-size: 1.2rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .card-details p {
+      font-size: 0.95rem;
+      opacity: 0.9;
+      margin: 0;
+    }
+
+    .floating-elements {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    .floating-symbol {
+      position: absolute;
+      font-size: 2rem;
+      color: var(--primary-gold);
+      opacity: 0.1;
+      animation: float 6s ease-in-out infinite;
+    }
+
+    .floating-symbol:nth-child(1) { top: 10%; left: 10%; animation-delay: 0s; }
+    .floating-symbol:nth-child(2) { top: 20%; right: 10%; animation-delay: 1s; }
+    .floating-symbol:nth-child(3) { top: 60%; left: 5%; animation-delay: 2s; }
+    .floating-symbol:nth-child(4) { bottom: 20%; right: 15%; animation-delay: 3s; }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-20px); }
+    }
+
+    .loading-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, var(--deep-blue) 0%, var(--royal-purple) 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      opacity: 1;
+      transition: opacity 0.5s ease;
+    }
+
+    .loading-overlay.hidden {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .loader {
+      width: 60px;
+      height: 60px;
+      border: 3px solid var(--primary-gold);
+      border-top: 3px solid transparent;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    @media (max-width: 768px) {
+      header h1 {
+        font-size: 2.5rem;
+      }
+      
+      main {
+        grid-template-columns: 1fr;
+        padding: 2rem 1rem;
+      }
+      
+      .card-content {
+        padding: 1.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="loading-overlay" id="loadingOverlay">
+    <div class="loader"></div>
+  </div>
+
+  <div class="floating-elements">
+    <div class="floating-symbol">🕉️</div>
+    <div class="floating-symbol">🪷</div>
+    <div class="floating-symbol">🔱</div>
+    <div class="floating-symbol">🕉️</div>
+  </div>
+
+  <header>
+    <h1>Dashavatara</h1>
+    <p>The Ten Divine Incarnations of Lord Vishnu
+(With Reverent Acknowledgment of Devi Mohini, the divine Enchantress)</p>
+  </header>
+  
+  <main id="avatar-container"></main>
+
+  <script>
+    const avatars = [
+      {
+        name: "Matsya (Fish)",
+        image: "images/matsya2.png",
+        description: "Saved the sacred texts and sages from a great flood.",
+        details: "Divine Protection",
+        story: "First avatar to save creation from the cosmic deluge.",
+        slug: "matsya",
+        fullStory: "During the great cosmic deluge (Pralaya), when the universe was about to be destroyed by floods, Lord Vishnu took the form of a giant fish to save all life. He rescued the Vedas, the seeds of all plants, and the seven great sages (Saptarishis) along with Manu, the progenitor of mankind. The Matsya avatar represents divine protection and preservation of knowledge.",
+        significance: "Represents preservation of life and knowledge during cosmic dissolution",
+        mantra: "Om Matsyaya Namaha"
+      },
+      {
+        name: "Kurma (Tortoise)",
+        image: "images/kurma.jpg",
+        description: "Supported the churning of the ocean on his back.",
+        details: "Cosmic Foundation",
+        story: "Became the base for Mount Mandara during Samudra Manthan.",
+        slug: "kurma",
+        fullStory: "During the great churning of the ocean (Samudra Manthan), the gods and demons needed a stable base for Mount Mandara to churn the cosmic ocean. Lord Vishnu took the form of a massive tortoise and supported the mountain on his back. This churning produced the nectar of immortality (amrita) and various divine treasures. The Kurma avatar symbolizes stability and support.",
+        significance: "Represents patience, stability, and foundation for cosmic activities",
+        mantra: "Om Kurmaya Namaha"
+      },
+      {
+        name: "Varaha (Boar)",
+        image: "images/varaha.jpg",
+        description: "Rescued Earth (Bhoomi Devi) from the demon Hiranyaksha.",
+        details: "Earth's Savior",
+        story: "Lifted the Earth from the cosmic waters with his tusks.",
+        slug: "varaha",
+        fullStory: "The demon Hiranyaksha dragged the Earth to the bottom of the cosmic ocean. Lord Vishnu took the form of a mighty boar and dove into the waters to rescue Mother Earth (Bhoomi Devi). After a fierce battle lasting a thousand years, Varaha killed the demon and lifted the Earth on his tusks, placing it back in its position. This avatar represents the protection of the Earth and its creatures.",
+        significance: "Represents protection of the Earth and victory over evil forces",
+        mantra: "Om Varahaya Namaha"
+      },
+      {
+        name: "Narasimha (Man-Lion)",
+        image: "images/narasimha.jpg",
+        description: "Destroyed the demon Hiranyakashipu to protect Prahlada.",
+        details: "Divine Justice",
+        story: "Appeared at twilight to fulfill the conditions of the boon.",
+        slug: "narasimha",
+        fullStory: "The demon king Hiranyakashipu had a boon that he couldn't be killed by man or beast, inside or outside, during day or night. He tortured his son Prahlada for worshipping Vishnu. Lord Vishnu appeared as Narasimha (half-man, half-lion) at twilight, at the threshold of the palace, and killed the demon with his claws. This avatar represents divine justice and protection of devotees.",
+        significance: "Represents divine justice and protection of innocent devotees",
+        mantra: "Om Narasimhaya Namaha"
+      },
+      {
+        name: "Vamana (Dwarf)",
+        image: "images/Vamana.jpg",
+        description: "Took back the universe from the demon king Bali.",
+        details: "Cosmic Reclaim",
+        story: "Covered the universe in three steps as Trivikrama.",
+        slug: "vamana",
+        fullStory: "The demon king Bali, through his devotion and sacrifices, had gained control over the three worlds, displacing the gods. Lord Vishnu took the form of a dwarf Brahmin and approached Bali asking for three steps of land. When Bali agreed, Vamana grew to cosmic size (Trivikrama) and covered the earth in one step, the heavens in another, and asked Bali where to place the third step. This avatar represents humility and cosmic order.",
+        significance: "Represents humility, cosmic order, and the power of devotion",
+        mantra: "Om Vamanaya Namaha"
+      },
+      {
+        name: "Parashurama (Warrior with Axe)",
+        image: "images/parshurama.png",
+        description: "Eliminated corrupt Kshatriyas from the Earth.",
+        details: "Righteous Warrior",
+        story: "Immortal avatar who restored dharma through divine warfare.",
+        slug: "parashurama",
+        fullStory: "When the warrior class (Kshatriyas) became corrupt and oppressive, Lord Vishnu took birth as Parashurama, the son of sage Jamadagni. Armed with an axe given by Lord Shiva, he eliminated the corrupt Kshatriyas from the Earth twenty-one times to restore righteousness. Unlike other avatars, Parashurama is immortal and is said to be still alive, preparing to train Kalki, the future avatar.",
+        significance: "Represents the fight against corruption and restoration of dharma",
+        mantra: "Om Parashuramaaya Namaha"
+      },
+      {
+        name: "Rama",
+        image: "images/rama.jpg",
+        description: "Defeated Ravana and upheld dharma as the ideal king.",
+        details: "Perfect Man",
+        story: "Embodiment of dharma, duty, and righteous governance.",
+        slug: "rama",
+        fullStory: "Lord Rama, the prince of Ayodhya, is the epitome of dharma and righteousness. Despite being the rightful heir, he accepted exile to honor his father's word. During his exile, his wife Sita was abducted by the demon king Ravana. Rama, with the help of Hanuman and an army of monkeys, defeated Ravana and rescued Sita. His life exemplifies the perfect son, husband, brother, and king.",
+        significance: "Represents ideal human behavior, dharma, and righteous governance",
+        mantra: "Om Ramaya Namaha"
+      },
+      {
+        name: "Krishna",
+        image: "images/krishna.jpg",
+        description: "Played a crucial role in Mahabharata and delivered the Bhagavad Gita.",
+        details: "Divine Guide",
+        story: "The complete avatar who revealed the ultimate truth.",
+        slug: "krishna",
+        fullStory: "Lord Krishna is considered the most complete avatar of Vishnu. Born to eliminate the tyrant Kamsa, he grew up performing miraculous deeds. He later became the charioteer and guide of Arjuna in the Mahabharata war, delivering the Bhagavad Gita - the essence of spiritual wisdom. Krishna's life encompasses all aspects of divinity - the playful child, the romantic youth, the wise king, and the supreme teacher.",
+        significance: "Represents complete divinity, love, wisdom, and spiritual guidance",
+        mantra: "Om Krishnaya Namaha"
+      },
+      {
+        name: "Buddha",
+        image: "images/buddha.png",
+        description: "Taught compassion and the path to enlightenment.",
+        details: "Peaceful Teacher",
+        story: "Brought the message of non-violence and spiritual awakening.",
+        slug: "buddha",
+        fullStory: "In the Kali Yuga, when animal sacrifices in the name of religion became excessive, Lord Vishnu incarnated as Buddha to teach compassion and non-violence. He showed the path to enlightenment through the Four Noble Truths and the Eightfold Path. Buddha's teachings emphasized the elimination of suffering through the abandonment of desires and the practice of dharma without violence.",
+        significance: "Represents compassion, non-violence, and the path to enlightenment",
+        mantra: "Om Buddhaya Namaha"
+      },
+      {
+        name: "Kalki (Future Avatar)",
+        image: "images/kalki.jpg",
+        description: "Will appear at the end of the Kali Yuga to restore righteousness.",
+        details: "Future Redeemer",
+        story: "The final avatar who will herald the golden age.",
+        slug: "kalki",
+        fullStory: "Kalki is the prophesied tenth avatar of Vishnu who will appear at the end of the Kali Yuga when righteousness reaches its lowest point. He will be born in the village of Shambhala, riding a white horse named Devadatta, and wielding a blazing sword. Kalki will destroy the wicked, restore dharma, and usher in the Satya Yuga (Golden Age). This avatar represents the ultimate triumph of good over evil.",
+        significance: "Represents the final restoration of dharma and the end of evil",
+        mantra: "Om Kalkaye Namaha"
+      },
+      
+      {
+  name: "Mohini (Enchantress)",
+  image: "images/mohini.jpg",
+  description: "The only female avatar of Vishnu, known for her beauty and ability to enchant.",
+  details: "Divine Enchantress",
+  story: "Mohini appeared during the churning of the ocean (Samudra Manthan) to distribute the amrit (nectar of immortality) to the gods, tricking the demons.",
+  slug: "mohini",
+  fullStory: "Mohini is the female avatar of Vishnu, taken during the churning of the ocean (Samudra Manthan) when the devas and asuras vied for the nectar of immortality (amrit). To prevent the demons from gaining immortality, Vishnu assumed the form of the celestial enchantress Mohini. With her mesmerizing beauty, she distracted the asuras and cunningly distributed the amrit to the devas. In some traditions, Mohini also appears in the tale of Bhasmasura, a demon whom she outwits to save the universe. Mohini is a symbol of divine charm used to uphold cosmic order.",
+  significance: "Represents divine illusion and the power of maya used to protect dharma",
+  mantra: "Om Mohinyai Namaha"
+}
+
+    ];
+
+    // Loading animation
+    window.addEventListener('load', () => {
+      setTimeout(() => {
+        document.getElementById('loadingOverlay').classList.add('hidden');
+        animateCards();
+      }, 1000);
+    });
+
+    function animateCards() {
+      const container = document.getElementById("avatar-container");
+      
+      avatars.forEach((avatar, index) => {
+        const card = document.createElement("div");
+        card.className = "card";
+        card.style.opacity = "0";
+        card.style.transform = "translateY(50px)";
+        card.setAttribute('data-avatar', avatar.slug);
+        
+        card.innerHTML = `
+          <div class="card-inner">
+            <div class="card-image-container">
+              <img src="${avatar.image}" alt="${avatar.name}" loading="lazy">
+              <div class="card-overlay"></div>
+              <div class="card-number">${index + 1}</div>
+            </div>
+            <div class="card-content">
+              <h2>${avatar.name}</h2>
+              <p>${avatar.description}</p>
+              <div class="card-details">
+                <h3>${avatar.details}</h3>
+                <p>${avatar.story}</p>
+                <div class="learn-more">Click to learn more →</div>
+              </div>
+            </div>
+          </div>
+        `;
+        
+        container.appendChild(card);
+        
+        // Add click event to redirect to avatar page
+        card.addEventListener('click', () => {
+          // Create a URL-safe slug for the avatar
+          const avatarSlug = avatar.slug;
+          
+          // Store avatar data in localStorage for the detail page
+          localStorage.setItem('currentAvatar', JSON.stringify(avatar));
+          
+          // Redirect to avatar detail page
+          window.location.href = `avatar-detail.html?avatar=${avatarSlug}`;
+        });
+        
+        // Animate card appearance
+        setTimeout(() => {
+          card.style.transition = "all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275)";
+          card.style.opacity = "1";
+          card.style.transform = "translateY(0)";
+        }, index * 100);
+      });
+    }
+
+    // Add click sound effect simulation
+    document.addEventListener('click', (e) => {
+      if (e.target.closest('.card')) {
+        // Create ripple effect
+        const card = e.target.closest('.card');
+        const ripple = document.createElement('div');
+        const rect = card.getBoundingClientRect();
+        const size = Math.max(rect.width, rect.height);
+        
+        ripple.style.cssText = `
+          position: absolute;
+          width: ${size}px;
+          height: ${size}px;
+          border-radius: 50%;
+          background: rgba(212, 175, 55, 0.3);
+          pointer-events: none;
+          left: ${e.clientX - rect.left - size/2}px;
+          top: ${e.clientY - rect.top - size/2}px;
+          animation: ripple 0.6s ease-out;
+        `;
+        
+        card.style.position = 'relative';
+        card.appendChild(ripple);
+        
+        setTimeout(() => ripple.remove(), 600);
+      }
+    });
+
+    // Add CSS for ripple animation
+    const style = document.createElement('style');
+    style.textContent = `
+      @keyframes ripple {
+        0% {
+          transform: scale(0);
+          opacity: 1;
+        }
+        100% {
+          transform: scale(1);
+          opacity: 0;
+        }
+      }
+    `;
+    document.head.appendChild(style);
+  </script>
+</body>
+</html>
